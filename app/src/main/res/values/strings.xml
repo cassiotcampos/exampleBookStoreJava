@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Cassio Bookstore</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="autores">Autor(es):</string>
+    <string name="titulo">Título:</string>
+    <string name="buy_link">"Buy link: "</string>
+    <string name="add_favorite">ADICIONAR</string>
+    <string name="remove_favorite">FAVORITO</string>
+    <string name="msg_fav_added">Item foi adicionado à coleção de favoritos.</string>
+    <string name="msg_removed_fav">Item removido da coleção.</string>
+    <string name="action_favorite">Favoritos</string>
+    <string name="my_favorites">Meus favoritos</string>
+    <string name="msg_no_favorites">Nenhum favorito na coleção. Por favor, adicione :)</string>
+    <string name="loading">Loading</string>
+</resources>
