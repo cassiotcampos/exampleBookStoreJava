@@ -13,14 +13,14 @@ import javax.inject.Inject;
 /**
  * Created by Cassio Ribeiro on 10/17/2020
  */
-public class BookFavoritesPresenterImpl implements BooksFavoritesContract.Presenter {
+public class FavoritesPresenterImpl implements FavoritesContract.Presenter {
 
-    private BooksFavoritesContract.View view;
+    private FavoritesContract.View view;
     private FavoritesSharedPreferences favoritesSharedPreferences;
 
     @Inject
-    public BookFavoritesPresenterImpl(BooksFavoritesContract.View view,
-                                      FavoritesSharedPreferences favoritesSharedPreferences) {
+    public FavoritesPresenterImpl(FavoritesContract.View view,
+                                  FavoritesSharedPreferences favoritesSharedPreferences) {
 
         this.view = view;
         this.favoritesSharedPreferences = favoritesSharedPreferences;

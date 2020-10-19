@@ -16,10 +16,10 @@ import javax.inject.Inject;
 /**
  * Created by Cassio Ribeiro on 10/19/2020
  */
-public class BookFavoritesActivity extends BaseBookMasterActivity  implements BooksFavoritesContract.View{
+public class FavoritesActivity extends BaseBookMasterActivity  implements FavoritesContract.View{
 
     @Inject
-    protected BooksFavoritesContract.Presenter presenter;
+    protected FavoritesContract.Presenter presenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

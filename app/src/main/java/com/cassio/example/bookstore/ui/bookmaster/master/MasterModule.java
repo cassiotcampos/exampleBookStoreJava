@@ -8,14 +8,14 @@ import dagger.Provides;
  * Created by Cassio Ribeiro on 10/17/2020
  */
 @Module
-public abstract class BookMasterModule {
+public abstract class MasterModule {
 
 
     @Provides
-    static BookMasterContract.Presenter provideBookMasterPresenter(BookMasterPresenterImpl bookMasterPresenter){
+    static MasterContract.Presenter provideBookMasterPresenter(MasterPresenterImpl bookMasterPresenter){
         return bookMasterPresenter;
     }
 
     @Binds
-    abstract BookMasterContract.View provideMainView(BookMasterActivity mainActivity);
+    abstract MasterContract.View provideMainView(MasterActivity mainActivity);
 }

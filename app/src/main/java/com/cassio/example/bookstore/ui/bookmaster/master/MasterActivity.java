@@ -10,17 +10,17 @@ import androidx.annotation.NonNull;
 import com.cassio.example.bookstore.R;
 import com.cassio.example.bookstore.model.api.BooksMaster;
 import com.cassio.example.bookstore.ui.bookmaster.base.BaseBookMasterActivity;
-import com.cassio.example.bookstore.ui.bookmaster.favorites.BookFavoritesActivity;
+import com.cassio.example.bookstore.ui.bookmaster.favorites.FavoritesActivity;
 
 import javax.inject.Inject;
 
 /**
  * Created by Cassio Ribeiro on 10/19/2020
  */
-public class BookMasterActivity extends BaseBookMasterActivity implements BookMasterContract.View {
+public class MasterActivity extends BaseBookMasterActivity implements MasterContract.View {
 
     @Inject
-    protected BookMasterContract.Presenter presenter;
+    protected MasterContract.Presenter presenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class BookMasterActivity extends BaseBookMasterActivity implements BookMa
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         if(item.getItemId() == R.id.action_favorite){
-            Intent intent = new Intent(this, BookFavoritesActivity.class);
+            Intent intent = new Intent(this, FavoritesActivity.class);
             startActivity(intent);
         }
 

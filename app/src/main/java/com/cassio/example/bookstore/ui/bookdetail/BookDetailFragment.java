@@ -18,8 +18,8 @@ import com.cassio.example.bookstore.di.glide.ImageConstants;
 import com.cassio.example.bookstore.model.api.BookDetail;
 import com.cassio.example.bookstore.model.validator.BookValidator;
 import com.cassio.example.bookstore.ui.base.BaseFragment;
-import com.cassio.example.bookstore.ui.bookmaster.favorites.BookFavoritesActivity;
-import com.cassio.example.bookstore.ui.bookmaster.master.BookMasterActivity;
+import com.cassio.example.bookstore.ui.bookmaster.favorites.FavoritesActivity;
+import com.cassio.example.bookstore.ui.bookmaster.master.MasterActivity;
 import com.cassio.example.bookstore.ui.util.GlideImageUtils;
 import com.cassio.example.bookstore.ui.util.TextUtils;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -120,8 +120,8 @@ public class BookDetailFragment extends BaseFragment implements BookDetailContra
 
     private void onClickFavorites() {
         bookDetailPresenter.onClickFavorite();
-        if(getActivity() instanceof BookMasterActivity){
-            ((BookMasterActivity)getActivity()).invalidateOptionsMenu();
+        if(getActivity() instanceof MasterActivity){
+            ((MasterActivity)getActivity()).invalidateOptionsMenu();
         }
     }
 
@@ -204,8 +204,8 @@ public class BookDetailFragment extends BaseFragment implements BookDetailContra
 
     @Override
     public void refreshFavoritesActivity() {
-        if(getActivity() instanceof BookFavoritesActivity){
-            ((BookFavoritesActivity)getActivity()).reloadBooks();
+        if(getActivity() instanceof FavoritesActivity){
+            ((FavoritesActivity)getActivity()).reloadBooks();
         }
     }
 }

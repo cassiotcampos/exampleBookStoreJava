@@ -17,9 +17,9 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Created by Cassio Ribeiro on 10/17/2020
  */
-public class BookMasterPresenterImpl implements BookMasterContract.Presenter {
+public class MasterPresenterImpl implements MasterContract.Presenter {
 
-    private BookMasterContract.View view;
+    private MasterContract.View view;
     private ApiServices apiServices;
     private FavoritesSharedPreferences favoritesSharedPreferences;
 
@@ -27,9 +27,9 @@ public class BookMasterPresenterImpl implements BookMasterContract.Presenter {
     private static final int maxResults = 20;
 
     @Inject
-    public BookMasterPresenterImpl(BookMasterContract.View view,
-                                   ApiServices apiServices,
-                                   FavoritesSharedPreferences favoritesSharedPreferences) {
+    public MasterPresenterImpl(MasterContract.View view,
+                               ApiServices apiServices,
+                               FavoritesSharedPreferences favoritesSharedPreferences) {
 
         this.apiServices = apiServices;
         this.view = view;
