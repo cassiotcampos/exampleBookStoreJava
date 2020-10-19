@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="app_bar_height">200dp</dimen>
-    <dimen name="mFabArrowSize">40dp</dimen>
     <dimen name="margin_left_only_two_panel">0dp</dimen>
 
     <dimen name="text_item_list_size">14sp</dimen>

@@ -5,13 +5,12 @@ import android.app.Application;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
-import com.cassio.example.bookstore.ui.util.ImageUtil;
+import com.cassio.example.bookstore.ui.util.GlideImageUtils;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-
 
 
 /**
@@ -25,11 +24,9 @@ public class GlideModule {
     @Singleton
     @Provides
     public RequestOptions provideRequestOptions(){
-        return RequestOptions
-                .placeholderOf(GlideConstants.DEFAULT_PLACEHOLDER)
-                .error(GlideConstants.DEFAULT_ERROR_PLACEHOLDER)
-                .priority(GlideConstants.DEFAULT_PRIORITY)
-                .diskCacheStrategy(GlideConstants.DEFAULT_DISK_CACHE_STRATEGY);
+        return new RequestOptions()
+                .priority(ImageConstants.DEFAULT_PRIORITY)
+                .diskCacheStrategy(ImageConstants.DEFAULT_DISK_CACHE_STRATEGY);
     }
 
     @Singleton
@@ -41,8 +38,8 @@ public class GlideModule {
 
     @Singleton
     @Provides
-    public ImageUtil providesImageUtil(RequestManager requestManager) {
-        return new ImageUtil(requestManager);
+    public GlideImageUtils providesImageUtil(RequestManager requestManager) {
+        return new GlideImageUtils(requestManager);
     }
 
 }

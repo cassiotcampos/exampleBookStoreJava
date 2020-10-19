@@ -1,5 +1,7 @@
 package com.cassio.example.bookstore.di.retrofit;
 
+import android.app.Application;
+
 import com.cassio.example.bookstore.repository.FavoritesSharedPreferences;
 
 import javax.inject.Singleton;
@@ -15,7 +17,7 @@ public class SharedPreferencesModule {
 
     @Singleton
     @Provides
-    public FavoritesSharedPreferences provideFavoritesSharedPreferences() {
-        return new FavoritesSharedPreferences();
+    public FavoritesSharedPreferences provideFavoritesSharedPreferences(Application application) {
+        return new FavoritesSharedPreferences(application);
     }
 }

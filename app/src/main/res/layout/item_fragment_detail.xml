@@ -1,66 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:ignore="MergeRootFrame"
-    android:animateLayoutChanges="true">
+    android:animateLayoutChanges="false"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".ui.bookdetail.BookDetailActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:fitsSystemWindows="true"
-            app:toolbarId="@+id/toolbar">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/detail_thumb_width"
+                android:layout_height="@dimen/detail_thumb_height"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="@android:color/white"
+                android:padding="-2dp">
 
                 <ImageView
+                    android:id="@+id/img_book_detail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/img_toolbar_bg"
-                    android:scaleType="centerCrop"
-                    tools:src="@drawable/ic_launcher_background"/>
+                    android:layout_gravity="center"
+                    android:background="@color/white"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_no_image_black" />
+            </androidx.cardview.widget.CardView>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorPrimaryTransparent" />
 
-            </FrameLayout>
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/detail_toolbar"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical">
 
-            </androidx.appcompat.widget.Toolbar>
+                <LinearLayout style="@style/containerBookInfo">
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+                    <TextView
+                        style="@style/textLabelBookDetail"
+                        android:focusableInTouchMode="true"
+                        android:text="@string/titulo" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+                    <TextView
+                        android:id="@+id/detail_title"
+                        style="@style/textDescription"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        tools:text="Autor Autor Autor Autor Autor Autor Autor " />
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/item_detail_container_handphone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/my_background"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+                <LinearLayout
+                    android:id="@+id/container_details_authors"
+                    style="@style/containerBookInfo"
+                    tools:visibility="visible">
+
+
+                    <TextView
+                        style="@style/textLabelBookDetail"
+                        android:text="@string/autores" />
+
+                    <TextView
+                        android:id="@+id/detail_authors"
+                        style="@style/textDescription"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        tools:text="Autor Autor Autor Autor Autor Autor Autor " />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/container_book_buy_link"
+                    style="@style/containerBookInfo"
+                    tools:visibility="visible">
+
+
+                    <TextView
+                        style="@style/textLabelBookDetail"
+                        android:text="@string/buy_link" />
+
+                    <TextView
+                        android:id="@+id/detail_buylink"
+                        style="@style/linkDescription"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        tools:text="Autor Autor Autor Autor Autor Autor Autor " />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/container_adicionar_favorito"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="12dp"
+            android:background="@drawable/my_ripple_fav_normal"
+            android:clickable="true"
+            android:focusable="true"
+            android:minWidth="280dp"
+            android:orientation="horizontal"
+            android:padding="12dp">
+
+            <ImageView
+                android:id="@+id/imb_add_fav"
+                android:layout_width="38dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_action_fav"
+                app:tint="@color/colorRed" />
+
+            <TextView
+                android:id="@+id/tv_fav"
+                style="@style/textBase"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="38dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Adicionar favorito"
+                android:textAllCaps="true"
+                android:textColor="@color/colorRed" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_book_detail_description"
+            style="@style/textBase"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_left_only_two_panel"
+            android:lineSpacingMultiplier="1.4"
+            android:padding="16dp"
+            android:textIsSelectable="true"
+            tools:context=".view.fragment.ItemDetailFragment"
+            tools:text="Exemplo de descricao descricao descricao descricao descricao descricao descricao descricao descricao descricao" />
+
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

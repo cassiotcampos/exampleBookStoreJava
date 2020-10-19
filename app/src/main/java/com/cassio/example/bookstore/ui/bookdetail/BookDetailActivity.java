@@ -1,22 +1,19 @@
 package com.cassio.example.bookstore.ui.bookdetail;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.cassio.example.bookstore.R;
-import com.cassio.example.bookstore.model.BookValidator;
 import com.cassio.example.bookstore.model.api.BookDetail;
-import com.cassio.example.bookstore.ui.bookmaster.BookMasterActivity;
-import com.cassio.example.bookstore.ui.util.ImageUtil;
+import com.cassio.example.bookstore.model.validator.BookValidator;
+import com.cassio.example.bookstore.ui.base.BaseActivity;
+import com.cassio.example.bookstore.ui.util.GlideImageUtils;
 import com.google.gson.Gson;
-
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -24,19 +21,21 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class BookDetailActivity extends AppCompatActivity {
+public class BookDetailActivity extends BaseActivity {
 
     public static final int REQUEST_CODE_VIEW = 1;
 
     private BookDetail bookDetail;
 
     @Inject
-    ImageUtil imageUtil;
+    GlideImageUtils glideImageUtils;
 
-    @BindView(R.id.detail_toolbar) Toolbar toolbar;
+    @BindView(R.id.detail_toolbar)
+    Toolbar toolbar;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
         ButterKnife.bind(this);
@@ -50,15 +49,11 @@ public class BookDetailActivity extends AppCompatActivity {
 
         bookDetail = recoverFromIntentOrSavedInstance(savedInstanceState);
 
-        // if not valid
-        if (!BookValidator.validate(bookDetail)) {
+        if (!new BookValidator(bookDetail).validate()) {
             onBackPressed();
-            return;
+        } else {
+            replaceFragment();
         }
-
-        // valid
-        loadContent();
-        replaceFragment();
     }
 
     private BookDetail recoverFromIntentOrSavedInstance(Bundle savedInstanceState) {
@@ -71,8 +66,7 @@ public class BookDetailActivity extends AppCompatActivity {
                         getIntent().getStringExtra(
                                 BookDetailFragment.ARG_BOOK_DETAIL), BookDetail.class);
             }
-
-        }else{
+        } else {
 
             return new Gson().fromJson(
                     savedInstanceState.getString(
@@ -87,7 +81,7 @@ public class BookDetailActivity extends AppCompatActivity {
         Fragment fragment = new BookDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString(BookDetailFragment.ARG_BOOK_DETAIL, getIntent().getStringExtra(BookDetailFragment.ARG_BOOK_DETAIL));
-
+        fragment.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.item_detail_container_handphone, fragment)
@@ -95,22 +89,17 @@ public class BookDetailActivity extends AppCompatActivity {
 
     }
 
-    private void loadContent() {
-
-        // load title on actiobar
-        Objects.requireNonNull(getSupportActionBar()).setTitle(BookValidator.getTitle(bookDetail));
-
-
-
-
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
+        onBackPressed();
+        return true;
     }
+
+    public void loadToolbarBg(String validatedUrl) {
+        ImageView toolbarBg = findViewById(R.id.img_toolbar_bg);
+        if (toolbarBg != null) {
+            glideImageUtils.loadImg(validatedUrl, toolbarBg, null, null, false, true);
+        }
+    }
+
 }
