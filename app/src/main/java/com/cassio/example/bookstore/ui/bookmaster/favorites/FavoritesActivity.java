@@ -16,7 +16,7 @@ import javax.inject.Inject;
 /**
  * Created by Cassio Ribeiro on 10/19/2020
  */
-public class FavoritesActivity extends BaseBookMasterActivity  implements FavoritesContract.View{
+public class FavoritesActivity extends BaseBookMasterActivity implements FavoritesContract.View {
 
     @Inject
     protected FavoritesContract.Presenter presenter;
@@ -27,8 +27,7 @@ public class FavoritesActivity extends BaseBookMasterActivity  implements Favori
 
         setSupportActionBar(toolbar);
 
-        if (savedInstanceState == null)
-            presenter.loadFavoritesFromSharedP();
+        presenter.loadFavoritesFromSharedP();
 
         toolbar.setBackgroundColor(getResources().getColor(R.color.colorRed));
         getSupportActionBar().setHomeButtonEnabled(true);
