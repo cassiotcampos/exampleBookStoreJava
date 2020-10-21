@@ -52,11 +52,6 @@ public abstract class BaseBookMasterActivity extends BaseActivity implements Bas
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_list);
         ButterKnife.bind(this);
-
-        if(savedInstanceState != null){
-            getIntent().putExtras(savedInstanceState);
-        }
-
         setupRecyclerView();
     }
 
@@ -66,17 +61,6 @@ public abstract class BaseBookMasterActivity extends BaseActivity implements Bas
         rvBooks.setLayoutManager(gridLayoutManager);
 
         BooksMaster booksMaster = new BooksMaster();
-
-        // recover from savedInstanceState
-        if(getIntent() != null && getIntent().getExtras() != null){
-            String recoveredBookMasterStr = getIntent().getExtras()
-                    .getString(ARG_BOOK_ADAPTER_DATA);
-
-            BooksMaster recoveredBookMaster = new Gson().fromJson(recoveredBookMasterStr, BooksMaster.class);
-            if(new BooksMasterValidator(recoveredBookMaster).isBookListAvailable()){
-                booksMaster = recoveredBookMaster;
-            }
-        }
 
         BookRowAdapter rowAdapter = new BookRowAdapter(booksMaster, isTwoPanel(), glideImageUtils, this);
         rvBooks.setAdapter(rowAdapter);
@@ -124,8 +108,8 @@ public abstract class BaseBookMasterActivity extends BaseActivity implements Bas
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
         outState.putString(ARG_BOOK_ADAPTER_DATA, new BooksMasterValidator(adapter.getBookMaster()).getAsJson());
+        super.onSaveInstanceState(outState);
     }
 
 }

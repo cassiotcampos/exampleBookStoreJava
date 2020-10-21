@@ -1,9 +1,14 @@
 package com.cassio.example.bookstore.ui.bookmaster.master;
 
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import com.cassio.example.bookstore.model.api.BooksMaster;
+import com.cassio.example.bookstore.model.validator.BooksMasterValidator;
 import com.cassio.example.bookstore.repository.ApiServices;
 import com.cassio.example.bookstore.repository.FavoritesSharedPreferences;
+import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
@@ -19,9 +24,14 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class MasterPresenterImpl implements MasterContract.Presenter {
 
+    private static final String ARG_BOOK_ADAPTER_DATA = "ARG_BOOK_ADAPTER_DATA";
+    private static final String ARG_BOOK_API_INDEX = "ARG_BOOK_API_INDEX";
+    private static final int ARG_API_INDEX_EMPTY = -1;
+
     private MasterContract.View view;
     private ApiServices apiServices;
     private FavoritesSharedPreferences favoritesSharedPreferences;
+    private BooksMaster booksLoaded;
 
     private int apiIndex = 0;
     private static final int maxResults = 20;
@@ -37,7 +47,17 @@ public class MasterPresenterImpl implements MasterContract.Presenter {
     }
 
     @Override
-    public void loadBooksFromApi() {
+    public void loadBooksOnCreate(Intent mIntent) {
+
+        if(loadFromIntent(mIntent)){
+            view.showBookList(booksLoaded);
+            view.hideProgress();
+        } else {
+            loadFromApi();
+        }
+    }
+
+    private void loadFromApi() {
 
         view.showProgress();
 
@@ -52,13 +72,13 @@ public class MasterPresenterImpl implements MasterContract.Presenter {
 
                     @Override
                     public void onNext(@NonNull BooksMaster booksMaster) {
+                        booksLoaded = booksMaster;
+                        apiIndex += maxResults;
                         view.showBookList(booksMaster);
-                        view.hideProgress();
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        view.hideProgress();
                         view.showApiErrorTryAgain();
                     }
 
@@ -69,14 +89,47 @@ public class MasterPresenterImpl implements MasterContract.Presenter {
                 });
     }
 
+    private boolean loadFromIntent(Intent mIntent) {
+        if (mIntent != null) {
+
+            BooksMaster booksMaster = new BooksMaster();
+
+            // recover from savedInstanceState
+            if (mIntent.getExtras() != null) {
+                String recoveredBookMasterStr = mIntent.getExtras()
+                        .getString(ARG_BOOK_ADAPTER_DATA);
+
+                int recoveredApiIndex = mIntent.
+                        getIntExtra(ARG_BOOK_API_INDEX, ARG_API_INDEX_EMPTY);
+
+                BooksMaster recoveredBookMaster = new Gson().fromJson(recoveredBookMasterStr, BooksMaster.class);
+                if (new BooksMasterValidator(recoveredBookMaster).isBookListAvailable()
+                        && recoveredApiIndex != ARG_API_INDEX_EMPTY) {
+
+                    booksLoaded = recoveredBookMaster;
+                    apiIndex = recoveredApiIndex;
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     @Override
     public void loadMoreBooks() {
-        apiIndex += maxResults;
-        loadBooksFromApi();
+        loadFromApi();
     }
 
     @Override
     public boolean hasFavorites() {
         return favoritesSharedPreferences.hasFavorites();
+    }
+
+    @Override
+    public void saveState(Bundle outState) {
+        outState.putString(ARG_BOOK_ADAPTER_DATA, new BooksMasterValidator(booksLoaded).getAsJson());
+        outState.putInt(ARG_BOOK_API_INDEX, apiIndex);
     }
 }

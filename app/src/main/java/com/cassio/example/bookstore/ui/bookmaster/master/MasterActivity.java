@@ -29,8 +29,11 @@ public class MasterActivity extends BaseBookMasterActivity implements MasterCont
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        if (savedInstanceState == null)
-            presenter.loadBooksFromApi();
+        if(savedInstanceState != null){
+            getIntent().putExtras(savedInstanceState);
+        }
+
+        presenter.loadBooksOnCreate(getIntent());
 
     }
 
@@ -81,5 +84,11 @@ public class MasterActivity extends BaseBookMasterActivity implements MasterCont
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        presenter.saveState(outState);
+        super.onSaveInstanceState(outState);
     }
 }

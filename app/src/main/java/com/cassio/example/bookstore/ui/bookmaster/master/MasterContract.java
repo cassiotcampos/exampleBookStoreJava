@@ -1,6 +1,9 @@
 package com.cassio.example.bookstore.ui.bookmaster.master;
 
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import com.cassio.example.bookstore.model.api.BooksMaster;
 import com.cassio.example.bookstore.ui.base.BasePresenter;
 import com.cassio.example.bookstore.ui.base.BaseView;
@@ -21,11 +24,13 @@ public interface MasterContract {
 
     interface Presenter extends BasePresenter {
 
-        void loadBooksFromApi();
+        void loadBooksOnCreate(Intent savedInstanceState);
 
         void loadMoreBooks();
 
         boolean hasFavorites();
+
+        void saveState(Bundle outState);
     }
 
 }
