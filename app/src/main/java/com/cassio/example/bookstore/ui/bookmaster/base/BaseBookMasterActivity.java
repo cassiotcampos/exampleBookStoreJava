@@ -7,17 +7,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cassio.example.bookstore.R;
 import com.cassio.example.bookstore.model.api.BookDetail;
-import com.cassio.example.bookstore.model.api.BooksMaster;
 import com.cassio.example.bookstore.model.validator.BooksMasterValidator;
 import com.cassio.example.bookstore.ui.base.BaseActivity;
 import com.cassio.example.bookstore.ui.bookdetail.BookDetailActivity;
 import com.cassio.example.bookstore.ui.bookdetail.BookDetailFragment;
-import com.cassio.example.bookstore.ui.bookmaster.adapter.BookRowAdapter;
 import com.cassio.example.bookstore.ui.bookmaster.adapter.BookRowAdapterContract;
 import com.cassio.example.bookstore.ui.util.GlideImageUtils;
 import com.google.gson.Gson;
@@ -33,7 +30,7 @@ public abstract class BaseBookMasterActivity extends BaseActivity implements Bas
     private static final String ARG_BOOK_ADAPTER_DATA = "ARG_BOOK_ADAPTER_DATA";
 
     @Inject
-    GlideImageUtils glideImageUtils;
+    protected GlideImageUtils glideImageUtils;
 
     @Nullable
     @BindView(R.id.item_detail_container_two_panel)
@@ -52,19 +49,6 @@ public abstract class BaseBookMasterActivity extends BaseActivity implements Bas
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_list);
         ButterKnife.bind(this);
-        setupRecyclerView();
-    }
-
-    protected void setupRecyclerView() {
-
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-        rvBooks.setLayoutManager(gridLayoutManager);
-
-        BooksMaster booksMaster = new BooksMaster();
-
-        BookRowAdapter rowAdapter = new BookRowAdapter(booksMaster, isTwoPanel(), glideImageUtils, this);
-        rvBooks.setAdapter(rowAdapter);
-        adapter = rowAdapter;
     }
 
     @Override
@@ -75,12 +59,6 @@ public abstract class BaseBookMasterActivity extends BaseActivity implements Bas
     @Override
     public boolean isTwoPanel() {
         return containerTwoPanel != null;
-    }
-
-
-    @Override
-    public void onLoadMoreBooksUnavailable(String msg) {
-
     }
 
     @Override

@@ -12,8 +12,6 @@ public interface FavoritesContract {
     interface View extends BaseView, BookRowCallback {
 
         void showBookList(BooksMaster booksMaster);
-
-        void hideProgress();
     }
 
     interface Presenter extends BasePresenter {

@@ -4,6 +4,7 @@ package com.cassio.example.bookstore.ui.bookmaster.master;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.cassio.example.bookstore.di.retrofit.ApiConstants;
 import com.cassio.example.bookstore.model.api.BooksMaster;
 import com.cassio.example.bookstore.model.validator.BooksMasterValidator;
 import com.cassio.example.bookstore.repository.ApiServices;
@@ -59,9 +60,7 @@ public class MasterPresenterImpl implements MasterContract.Presenter {
 
     private void loadFromApi() {
 
-        view.showProgress();
-
-        apiServices.getBooks("Android", maxResults, apiIndex, "")
+        apiServices.getBooks("Android", maxResults, apiIndex, ApiConstants.FIELDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BooksMaster>() {
@@ -73,18 +72,24 @@ public class MasterPresenterImpl implements MasterContract.Presenter {
                     @Override
                     public void onNext(@NonNull BooksMaster booksMaster) {
                         booksLoaded = booksMaster;
-                        apiIndex += maxResults;
-                        view.showBookList(booksMaster);
+                        if(apiIndex > 0 && !new BooksMasterValidator(booksMaster).isBookListAvailable()){
+                            view.showNoMoreResults();
+                        }else {
+                            apiIndex += maxResults;
+                            view.showBookList(booksMaster);
+                        }
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        view.showApiErrorTryAgain();
+                        if(apiIndex > 0) {
+                            view.showApiErrorTryAgain();
+                        }
                     }
 
                     @Override
                     public void onComplete() {
-                        view.hideProgress();
+
                     }
                 });
     }
@@ -119,6 +124,7 @@ public class MasterPresenterImpl implements MasterContract.Presenter {
 
     @Override
     public void loadMoreBooks() {
+        view.showProgress();
         loadFromApi();
     }
 

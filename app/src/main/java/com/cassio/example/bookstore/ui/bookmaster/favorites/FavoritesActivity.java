@@ -6,9 +6,11 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.cassio.example.bookstore.R;
 import com.cassio.example.bookstore.model.api.BooksMaster;
+import com.cassio.example.bookstore.ui.bookmaster.adapter.BookRowAdapter;
 import com.cassio.example.bookstore.ui.bookmaster.base.BaseBookMasterActivity;
 
 import javax.inject.Inject;
@@ -51,17 +53,27 @@ public class FavoritesActivity extends BaseBookMasterActivity implements Favorit
 
     @Override
     public void showBookList(BooksMaster booksMaster) {
-        adapter.addMoreBooks(booksMaster);
+        setupRecyclerView(booksMaster);
     }
 
-    @Override
-    public void hideProgress() {
+    protected void setupRecyclerView(BooksMaster booksMaster) {
 
-    }
+        // header and footer items spans 1 column
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if(position == 0) return 2;
+                if(position == adapter.getLastPosition()) return 2;
+                return 1;
+            }
+        });
 
-    @Override
-    public void lastBookBinded() {
+        rvBooks.setLayoutManager(gridLayoutManager);
 
+        BookRowAdapter rowAdapter = new BookRowAdapter(booksMaster, isTwoPanel(), glideImageUtils, this);
+        rvBooks.setAdapter(rowAdapter);
+        adapter = rowAdapter;
     }
 
     @Override
@@ -71,7 +83,11 @@ public class FavoritesActivity extends BaseBookMasterActivity implements Favorit
     }
 
     public void reloadBooks() {
-        setupRecyclerView();
         presenter.loadFavoritesFromSharedP();
+    }
+
+    @Override
+    public void lastBookBinded() {
+
     }
 }

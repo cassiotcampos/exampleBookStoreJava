@@ -13,4 +13,14 @@ public interface BookRowAdapterContract {
     void removeBook(BookDetail bookToBeRemoved);
 
     BooksMaster getBookMaster();
+
+    int getLastPosition();
+
+    void showProgress();
+
+    void hideProgress();
+
+    void showErrorTryAgain();
+
+    void showNoMoreResults();
 }

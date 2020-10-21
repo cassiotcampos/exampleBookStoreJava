@@ -6,13 +6,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.cassio.example.bookstore.R;
 import com.cassio.example.bookstore.model.api.BooksMaster;
+import com.cassio.example.bookstore.ui.bookmaster.adapter.BookRowAdapter;
 import com.cassio.example.bookstore.ui.bookmaster.base.BaseBookMasterActivity;
 import com.cassio.example.bookstore.ui.bookmaster.favorites.FavoritesActivity;
 
 import javax.inject.Inject;
+
+import butterknife.ButterKnife;
 
 /**
  * Created by Cassio Ribeiro on 10/19/2020
@@ -25,7 +29,7 @@ public class MasterActivity extends BaseBookMasterActivity implements MasterCont
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
@@ -50,29 +54,59 @@ public class MasterActivity extends BaseBookMasterActivity implements MasterCont
         invalidateOptionsMenu();
     }
 
+    protected void setupRecyclerView(BooksMaster booksMaster) {
+
+        // header and footer items spans 1 column
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if(position == 0) return 2;
+                if(position == adapter.getLastPosition()) return 2;
+                return 1;
+            }
+        });
+
+        rvBooks.setLayoutManager(gridLayoutManager);
+
+        BookRowAdapter rowAdapter = new BookRowAdapter(booksMaster, isTwoPanel(), glideImageUtils, this);
+        rvBooks.setAdapter(rowAdapter);
+        adapter = rowAdapter;
+    }
+
     @Override
     public void lastBookBinded() {
+        rvBooks.post(() -> adapter.showProgress());
         presenter.loadMoreBooks();
     }
 
     @Override
     public void showProgress() {
-
+        rvBooks.post(() -> adapter.showProgress());
     }
 
     @Override
     public void hideProgress() {
-
+        rvBooks.post(() -> adapter.hideProgress());
     }
 
     @Override
     public void showBookList(BooksMaster booksMaster) {
-        adapter.addMoreBooks(booksMaster);
+        if(adapter == null){
+            setupRecyclerView(booksMaster);
+        }else {
+            rvBooks.post(() -> adapter.addMoreBooks(booksMaster));
+        }
     }
 
     @Override
     public void showApiErrorTryAgain() {
+        adapter.showErrorTryAgain();
+    }
 
+    @Override
+    public void showNoMoreResults() {
+        adapter.showNoMoreResults();
     }
 
     @Override

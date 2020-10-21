@@ -28,7 +28,6 @@ public class FavoritesPresenterImpl implements FavoritesContract.Presenter {
 
     @Override
     public void loadFavoritesFromSharedP() {
-        view.hideProgress();
         ArrayList<BookDetail> mFavoriteBooks = favoritesSharedPreferences.getFavoriteBooks();
         BooksMaster booksMaster = new BooksMaster();
         booksMaster.setTotalItems(mFavoriteBooks.size());

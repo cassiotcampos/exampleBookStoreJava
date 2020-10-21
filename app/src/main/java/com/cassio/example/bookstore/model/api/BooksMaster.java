@@ -11,7 +11,7 @@ public class BooksMaster {
     private String kind;
 
     @SerializedName("totalItems")
-    private Integer totalItems;
+    private int totalItems;
 
     @SerializedName("items")
     private List<BookDetail> books = null;
@@ -24,11 +24,11 @@ public class BooksMaster {
         this.kind = kind;
     }
 
-    public Integer getTotalItems() {
+    public int getTotalItems() {
         return totalItems;
     }
 
-    public void setTotalItems(Integer totalItems) {
+    public void setTotalItems(int totalItems) {
         this.totalItems = totalItems;
     }
 

@@ -20,6 +20,8 @@ public interface MasterContract {
         void showBookList(BooksMaster booksMaster);
 
         void showApiErrorTryAgain();
+
+        void showNoMoreResults();
     }
 
     interface Presenter extends BasePresenter {
