@@ -50,7 +50,7 @@ public class MasterPresenterImpl implements MasterContract.Presenter {
     @Override
     public void loadBooksOnCreate(Intent mIntent) {
 
-        if(loadFromIntent(mIntent)){
+        if (loadFromIntent(mIntent)) {
             view.showBookList(booksLoaded);
             view.hideProgress();
         } else {
@@ -72,9 +72,9 @@ public class MasterPresenterImpl implements MasterContract.Presenter {
                     @Override
                     public void onNext(@NonNull BooksMaster booksMaster) {
                         booksLoaded = booksMaster;
-                        if(apiIndex > 0 && !new BooksMasterValidator(booksMaster).isBookListAvailable()){
+                        if (apiIndex > 0 && !new BooksMasterValidator(booksMaster).isBookListAvailable()) {
                             view.showNoMoreResults();
-                        }else {
+                        } else {
                             apiIndex += maxResults;
                             view.showBookList(booksMaster);
                         }
@@ -82,9 +82,7 @@ public class MasterPresenterImpl implements MasterContract.Presenter {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        if(apiIndex > 0) {
-                            view.showApiErrorTryAgain();
-                        }
+                        view.showApiErrorTryAgain();
                     }
 
                     @Override
@@ -134,8 +132,8 @@ public class MasterPresenterImpl implements MasterContract.Presenter {
     }
 
     @Override
-    public void saveState(Bundle outState) {
-        outState.putString(ARG_BOOK_ADAPTER_DATA, new BooksMasterValidator(booksLoaded).getAsJson());
+    public void saveState(Bundle outState, BooksMaster booksMaster) {
+        outState.putString(ARG_BOOK_ADAPTER_DATA, new BooksMasterValidator(booksMaster).getAsJson());
         outState.putInt(ARG_BOOK_API_INDEX, apiIndex);
     }
 }

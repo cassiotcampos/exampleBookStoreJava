@@ -32,7 +32,7 @@ public interface MasterContract {
 
         boolean hasFavorites();
 
-        void saveState(Bundle outState);
+        void saveState(Bundle outState, BooksMaster booksMaster);
     }
 
 }

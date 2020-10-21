@@ -3,7 +3,6 @@ package com.cassio.example.bookstore.ui.bookmaster.base;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cassio.example.bookstore.R;
 import com.cassio.example.bookstore.model.api.BookDetail;
-import com.cassio.example.bookstore.model.validator.BooksMasterValidator;
 import com.cassio.example.bookstore.ui.base.BaseActivity;
 import com.cassio.example.bookstore.ui.bookdetail.BookDetailActivity;
 import com.cassio.example.bookstore.ui.bookdetail.BookDetailFragment;
@@ -83,11 +81,4 @@ public abstract class BaseBookMasterActivity extends BaseActivity implements Bas
             startActivityForResult(intent, BookDetailActivity.REQUEST_CODE_VIEW);
         }
     }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putString(ARG_BOOK_ADAPTER_DATA, new BooksMasterValidator(adapter.getBookMaster()).getAsJson());
-        super.onSaveInstanceState(outState);
-    }
-
 }

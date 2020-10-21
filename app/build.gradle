@@ -13,7 +13,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.cassio.example.bookstore.CustomTestRunner"
     }
 
     // Specifies one flavor dimension.
@@ -47,9 +47,6 @@ android {
     }
 }
 ext.supportLibraryVersion = '28.0.0'
-ext.supportLibraryVersion = '28.0.0'
-ext.supportLibraryVersion = '28.0.0'
-ext.supportLibraryVersion = '28.0.0'
 
 dependencies {
 
@@ -77,6 +74,7 @@ dependencies {
     compile "com.google.dagger:dagger-android-support:$daggerVersion" // if you use the support libraries
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 
     //RxJava
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
@@ -91,12 +89,15 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:4.0.0'
 
 
+
+def androidx_test_espresso = "3.3.0"
     // tests
+    implementation "androidx.test.espresso:espresso-idling-resource:$androidx_test_espresso" // todo replace Thread.sleep with CountingIddleResources
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_test_espresso"
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test:rules:1.3.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidx_test_espresso"
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:3.4.2" // SDk 16 support 3.4.2
     androidTestImplementation "net.vidageek:mirror:1.6.1"

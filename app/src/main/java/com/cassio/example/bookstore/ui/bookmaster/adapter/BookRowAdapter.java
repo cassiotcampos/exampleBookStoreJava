@@ -49,7 +49,7 @@ public class BookRowAdapter
                           GlideImageUtils glideImageUtils,
                           BookRowCallback bookRowCallback) {
 
-        if(booksMaster.getTotalItems() > 0) showHeader = true;
+        if(booksMaster.getBooks().size() > 0) showHeader = true;
         this.booksMaster = booksMaster;
         this.isTwoPanel = isTwoPanel;
         this.glideImageUtils = glideImageUtils;
@@ -84,7 +84,7 @@ public class BookRowAdapter
             onBindViewHolderBook((BookViewHolder) holder, position - 1);
         }
 
-        if (position == getLastPosition() -1 && position > 1) {
+        if (position == getLastPosition() -1 && position > 0) {
             bookRowCallback.lastBookBinded();
         }
     }

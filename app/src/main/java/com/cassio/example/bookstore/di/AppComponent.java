@@ -35,6 +35,7 @@ public interface AppComponent extends AndroidInjector<BookApplication> {
         @BindsInstance
         Builder application(Application application);
         AppComponent build();
+        Builder setRetrofitModule(RetrofitModule retrofitModule); // used for tests
     }
 
 

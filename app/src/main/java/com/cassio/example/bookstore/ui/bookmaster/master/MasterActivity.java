@@ -14,6 +14,8 @@ import com.cassio.example.bookstore.ui.bookmaster.adapter.BookRowAdapter;
 import com.cassio.example.bookstore.ui.bookmaster.base.BaseBookMasterActivity;
 import com.cassio.example.bookstore.ui.bookmaster.favorites.FavoritesActivity;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -76,17 +78,31 @@ public class MasterActivity extends BaseBookMasterActivity implements MasterCont
 
     @Override
     public void lastBookBinded() {
-        rvBooks.post(() -> adapter.showProgress());
-        presenter.loadMoreBooks();
+        if(adapter != null) {
+            rvBooks.post(() -> adapter.showProgress());
+            presenter.loadMoreBooks();
+        }
     }
 
     @Override
     public void showProgress() {
+        if(adapter == null){
+            initRecyclerWithAdapterWithEmptyList();
+        }
         rvBooks.post(() -> adapter.showProgress());
+    }
+
+    private void initRecyclerWithAdapterWithEmptyList() {
+        BooksMaster booksMaster = new BooksMaster();
+        booksMaster.setBooks(new ArrayList<>());
+        setupRecyclerView(booksMaster);
     }
 
     @Override
     public void hideProgress() {
+        if(adapter == null){
+            initRecyclerWithAdapterWithEmptyList();
+        }
         rvBooks.post(() -> adapter.hideProgress());
     }
 
@@ -101,11 +117,17 @@ public class MasterActivity extends BaseBookMasterActivity implements MasterCont
 
     @Override
     public void showApiErrorTryAgain() {
+        if(adapter == null){
+            initRecyclerWithAdapterWithEmptyList();
+        }
         adapter.showErrorTryAgain();
     }
 
     @Override
     public void showNoMoreResults() {
+        if(adapter == null){
+            initRecyclerWithAdapterWithEmptyList();
+        }
         adapter.showNoMoreResults();
     }
 
@@ -122,7 +144,7 @@ public class MasterActivity extends BaseBookMasterActivity implements MasterCont
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
-        presenter.saveState(outState);
+        presenter.saveState(outState, adapter.getBookMaster());
         super.onSaveInstanceState(outState);
     }
 }
